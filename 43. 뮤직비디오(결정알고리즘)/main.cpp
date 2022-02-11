@@ -1,3 +1,39 @@
+#include<stdio.h>
+#include<algorithm>
+using namespace std;
+int a[1001], n;
+int Count(int s){
+	int i, cnt=1, sum=0;
+	for(i=1; i<=n; i++){
+		if(sum+a[i]>s){
+			cnt++;
+			sum=a[i];
+		}
+		else sum=sum+a[i];
+	}
+	return cnt;
+}
+int main(){
+	freopen("input.txt", "rt", stdin);
+	int m, i, lt=1, rt=0, mid, res, maxx=-2147000000;
+	scanf("%d %d", &n, &m);
+	for(i=1; i<=n; i++){
+		scanf("%d", &a[i]);
+		rt=rt+a[i];
+		if(a[i]>maxx) maxx=a[i];
+	}
+	while(lt<=rt){
+		mid=(lt+rt)/2;
+		if(mid>=maxx && Count(mid)<=m){	
+			res=mid;
+			rt=mid-1;
+		}
+		else lt=mid+1;
+	}
+	printf("%d\n", res);
+	return 0;
+}
+/*
 #include <stdio.h>
 #include <algorithm>		//exit(0) 사용하기 위해, abs함수 사용 
 #include <vector>			//C++ 라이브러리 
@@ -49,24 +85,5 @@ int main(){
 	return 0; 
 	
 	
-	/*
-	int n, m, i, j, pos, tmp;
-	
-	scanf("%d %d", &n, &m);
-	vector <int> a(n+1);
-	for(i=1; i<=n; i++){
-		scanf("%d", &a[i]);
-	}
-	sort(a.begin(), a.end());
-//	for(i=1;i<=n;i++) printf("%d ",a[i]);
-	for(i=1; i<=n; i++){
-		if(a[i]==m) {
-			pos=i;
-			break;	
-		}
-	}
-	printf("\n%d",pos);
-	
-	return 0;
-	*/
 }
+*/
