@@ -2,31 +2,35 @@
 #include<algorithm>
 using namespace std;
 int a[1001], n;
-int Count(int s){
+
+int Count(int mid){		// DVD의 개수 
 	int i, cnt=1, sum=0;
+	
 	for(i=1; i<=n; i++){
-		if(sum+a[i]>s){
+		if(sum+a[i]>mid){
 			cnt++;
 			sum=a[i];
 		}
-		else sum=sum+a[i];
+		else sum+=a[i];
 	}
 	return cnt;
 }
+
 int main(){
-	freopen("input.txt", "rt", stdin);
-	int m, i, lt=1, rt=0, mid, res, maxx=-2147000000;
+//	freopen("input.txt", "rt", stdin);
+	int m, i, lt=1, rt=0, mid, res;
 	scanf("%d %d", &n, &m);
+	
 	for(i=1; i<=n; i++){
 		scanf("%d", &a[i]);
-		rt=rt+a[i];
-		if(a[i]>maxx) maxx=a[i];
+		rt+=a[i];
 	}
+	
 	while(lt<=rt){
 		mid=(lt+rt)/2;
-		if(mid>=maxx && Count(mid)<=m){	
-			res=mid;
-			rt=mid-1;
+		if(Count(mid)<=m){		// <=m으로 하면.. m보다 작을 때 괜찮나..? m = 3이고 Count(1) Count(2)일때도 true  
+			res=mid;			// 현재 가능한 숫자를 res에 저장 
+			rt=mid-1;			
 		}
 		else lt=mid+1;
 	}
