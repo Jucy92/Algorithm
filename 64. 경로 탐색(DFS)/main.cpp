@@ -1,44 +1,46 @@
 #include <stdio.h>
 using namespace std;
 
-int N, M, map[21][21], chk[21], cnt=0;
-void DFS(int v){
-	int i;
-	if(N==v){ 
+int map[10][10], chk[10][10], cnt=0;
+int dx[4] = {-1, 0, 1, 0};
+int dy[4] = {0, 1, 0, -1};
+
+void DFS(int x, int y){
+	int i, xx, yy;
+	if(x==7 && y==7){
 		cnt++;
 	}
 	else{
-		for(i=1;i<=N;i++){
-			if(map[v][i]==1 && chk[i]==0){
-				chk[i]=1;
-				DFS(i);
-				chk[i]=0; // i를 전역변수로 잡으면 X, 앞단 DFS(call) 했을 때  i값을 가져간다.. 
-				
+		for(i=0; i<4; i++){
+			xx = x+dx[i];
+			yy = x+dy[i];
+			if(xx<1 || xx>7 || yy<1 || yy>7) continue;
+			if(map[xx][yy]==0 && chk[xx][yy]==0){
+				chk[xx][yy]=1;
+				DFS(xx,yy);
+				chk[xx][yy]=0;
 			}
 		}
 	}
 }
 int main(){
-	freopen("input.txt", "rw", stdin);
-	int a,b, i;
-	chk[1]=1;
+	freopen("input.txt", "rt", stdin);
+	int i, j;
 	
-	scanf("%d %d", &N, &M);
-	
-	for(i=1; i<=M; i++){
-		scanf("%d %d", &a, &b);
-		map[a][b] = 1;
-	}
-	DFS(1);
-	printf("%d", cnt);
-	/*
-	for(i=1; i<=N; i++){
-		for(int j=1; j<=N; j++){
-			printf("%d ", map[i][j]);
+	for(i=1; i<=7; i++){
+		for(j=1; j<=7; j++){
+			scanf("%d", &map[i][j]);
 		}
-		printf("\n");
 	}
-	*/
+//	for(i=1; i<=7; i++){
+//		for(j=1; j<=7; j++){
+//			printf("%d ", map[i][j]);
+//		}
+//		printf("\n");
+//	}
+	chk[1][1]=1;
+	DFS(1, 1);
+	printf("%d\n", cnt);
 	
 	return 0;
 }
