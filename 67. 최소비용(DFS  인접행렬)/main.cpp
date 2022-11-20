@@ -1,7 +1,7 @@
 #include <stdio.h>
 using namespace std;
 
-int n, min=15;
+int n, min=2147000000;
 int p[21][21], chk[21];
 
 void DFS(int v, int sum){
@@ -15,13 +15,13 @@ void DFS(int v, int sum){
 		for(i=1; i<=n; i++){
 			if(p[v][i]>0 && chk[i]==0){
 				chk[i]=1;
-				DFS(i,sum=p[v][i]);
+				DFS(i,sum+p[v][i]);
 				chk[i]=0;
 			}
 		}
 	}
 }
-int main() {
+int main() {		//67. 최소비용(DFS:인접행렬) 
 	freopen("input.txt", "rt", stdin);
 	int a,b,c,m,i;
 	scanf("%d %d", &n, &m);
