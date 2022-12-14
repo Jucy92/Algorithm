@@ -2,44 +2,39 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
-#define N 10000
+#define N 10001
 using namespace std;
+int chk[10001], jmp[3]={1,-1,5};
 
 int main(){
 	freopen("input.txt", "rt", stdin);
-	int S, E, x, i, LV[N];
-	LV[N]=0;
-	vector<int> map[N];
-	queue<int> Q[N];
+	int S, E, x, i, pos; // chk[10001], jmp[3]={1,-1,5}; 지역변수로 잡으면 마지막 케이스 출력이 안됨  7 8945
+	queue<int> Q;
 	scanf("%d %d", &S, &E);
 	
-	Q.front(5);
-	while(x<E){	//근데 이렇게 처리하면.. 큐가 다 안비워진 상태로 종료되지 않나.. -> 메모리 낭비 
-		x= Q.front();
+	Q.push(S);
+	chk[S]=1;
+	
+	while(!Q.empty()){
+		x=Q.front();
 		Q.pop();
 		for(i=0; i<3; i++){
-			if(i==0){
-				map[x].push_back(x+1);	
-				Q.push(x+1);
-				LV[map[x][i]]=LV[x]+1;
+			pos=x+jmp[i];
+			if(pos<=0 || pos>10000) continue;
+			if(pos==E){
+				printf("%d\n", chk[x]);
+				exit(0);
 			}
-			else if(i==1){
-				map[x].push_back(x-1);
-				Q.push(x-1);
-				LV[map[x][i]]=LV[x]+1;
+			if(chk[pos]==0){
+				chk[pos]=chk[x]+1; 
+				Q.push(pos);
+//				chk[pos]=1;				// 0!=chk[pos] 이면 되고, 레벨도 체크해야해서 이렇게 처리하면 안됨 
+				
 			}
-			else{
-				map[x].push_back(x+5);
-				Q.push(x+5);
-				LV[map[x][i]]=LV[x]+1;
-			}
-			
-		}
-		
-		if(Q.end() == E) {
-			printf("%d", LV[x]);
 		}
 	}
+	
+	
 	
 	
 	return 0;
