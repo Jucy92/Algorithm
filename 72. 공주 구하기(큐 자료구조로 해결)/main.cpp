@@ -3,29 +3,36 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
-#define N 10001
+#define N 1001
 using namespace std;
-int chk[1001], val[1001];
+int chk[N];
 
 int main(){
 	freopen("input.txt", "rt", stdin);
-	int n, k, i, x;
+	int n, k, i, x, cnt=0, pos=0;
 	queue<int> Q;
 	scanf("%d %d", &n, &k);
 	
 	for(i=1; i<=n; i++){
-		scanf("%d", &val[i]);
+		Q.push(i);
 	}
-
-	
-//	/*
-	Q.push(1);
-//	chk[S]=1;
 	
 	while(!Q.empty()){
 		x=Q.front();
-		Q.pop();
-		if(x=)
+//		if(chk[pos]==0){
+		cnt++;
+		Q.pop();	
+//		}
+		if(k=cnt){
+			chk[x]=1;
+			cnt=0;
+		}
+		else{
+			Q.push(x);
+		}
+		if(Q.size()==1){
+			printf("%d\n", x);
+		}
 	}
 	
 	
