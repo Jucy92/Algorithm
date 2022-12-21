@@ -17,7 +17,7 @@ struct Data{
 };
 int main(){
 //	freopen("input.txt", "rt", stdin);
-	int N, D, M, i, j, max=-2174000000;
+	int N, D, M, i, j, res, max=-2147000000;
 	vector<Data> T; 
 	vector<pair<int, int> > P;
 	priority_queue<int> pQ;
@@ -34,10 +34,16 @@ int main(){
 	sort(T.begin(), T.end());
 	j=0;
 	for(i=max; i>=1; i--){
-		for( ; j<N; j++){
-			
+		for( ; j<N; j++){ 
+			if(T[j].when<i) break;
+			pQ.push(T[j].money);
+		}
+		if(!pQ.empty()){
+			res+=pQ.top();
+			pQ.pop();
 		}
 	}
+	printf("%d\n", res);
 	
 	
 	return 0;
