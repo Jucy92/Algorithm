@@ -3,19 +3,17 @@
 #include <vector>
 #include <queue>
 using namespace std;
+int DFS(int n, int k){
+	if(n==k || k==0) return 1;
+	else return DFS(n-1, k-1)+ DFS(n-1,k);
+}
 
 int main(){
 	freopen("input.txt", "rt", stdin);
-	int n, k, i, mul1=1, mul2=1;
+	int n, k;
 	
 	scanf("%d %d", &n, &k);
-	for(i=n; i>k; i--){
-		mul1*= i;
-	}
-	for(i=1; i<=(n-k); i++){
-		mul2*= i;
-	}
-	printf("%d\n", mul1/mul2);
+	printf("%d\n", DFS(n,k));
 	
 	
 	return 0;
