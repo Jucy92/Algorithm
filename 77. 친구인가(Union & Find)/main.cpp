@@ -1,25 +1,27 @@
 #include<stdio.h>
-#include<algorithm>
-#include<queue>
 #include<vector>
-using namespace std;
+#include<algorithm>
+#include<stack>
+using namespace std;	
 int unf[1001];
-
-int Find(int v){
-	if(v==unf[v]) return v;
-	else return unf[v]=Find(unf[v]);
+int Find(int x){
+	if(x==unf[x]) return x;
+	else{
+		return Find(unf[x]);
+	}
 }
 
-void Union(int a, int b){
+int Union(int a, int b){
 	a=Find(a);
 	b=Find(b);
 	if(a!=b) unf[a]=b;
 }
 
 int main(){
-	freopen("input.txt", "rt", stdin);
-	int i, n, m, a, b, fa, fb, j;
+//	freopen("input.txt", "rt", stdin);
+	int n, m, i, a, b, fa, fb;
 	scanf("%d %d", &n, &m);
+	
 	for(i=1; i<=n; i++){
 		unf[i]=i;
 	}
@@ -32,5 +34,7 @@ int main(){
 	fb=Find(b);
 	if(fa==fb) printf("YES\n");
 	else printf("NO\n");
+	
+	
 	return 0;
 }
