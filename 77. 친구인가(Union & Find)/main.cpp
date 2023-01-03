@@ -7,7 +7,7 @@ int unf[1001];
 int Find(int x){
 	if(x==unf[x]) return x;
 	else{
-		return Find(unf[x]);
+		return unf[x] = Find(unf[x]);
 	}
 }
 
@@ -18,7 +18,7 @@ int Union(int a, int b){
 }
 
 int main(){
-//	freopen("input.txt", "rt", stdin);
+	freopen("input.txt", "rt", stdin);
 	int n, m, i, a, b, fa, fb;
 	scanf("%d %d", &n, &m);
 	
