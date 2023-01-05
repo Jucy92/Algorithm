@@ -4,7 +4,7 @@
 #include<stack>
 using namespace std;	
 //int map[26][201];
-int unf[26];
+int unf[10001];
 struct Edge{
 	int v, e, val;
 	Edge(int a, int b, int c){
@@ -17,7 +17,7 @@ struct Edge{
 	}
 };
 int Find(int x){
-	if(x=unf[x]) return x;
+	if(x==unf[x]) return x;
 	else return unf[x] = Find(unf[x]);
 }
 void Union(int a, int b){
@@ -28,7 +28,7 @@ void Union(int a, int b){
 
 int main(){
 	freopen("input.txt", "rt", stdin);
-	int v, e, a, b, c, i;
+	int v, e, a, b, c, i, fa, fb, res=0;
 	vector <Edge> Ed;
 	scanf("%d %d", &v, &e);
 	
@@ -40,10 +40,19 @@ int main(){
 		Ed.push_back(Edge(a, b, c));
 	}
 	sort(Ed.begin(), Ed.end());
-//	printf("%d", eg.size());		// 정상 출력 12 나옴 
-	
-	for(i=0; i<Ed.size(); i++){
-		printf("%d %d %d\n", Ed[i].v, Ed[i].e, Ed[i].val);		
+	for(i=0; i<e; i++){
+		fa=Find(Ed[i].v);
+		fb=Find(Ed[i].e);
+		if(fa!=fb){
+			Union(fa, fb);
+			res+=Ed[i].val;	
+		}
 	}
+	printf("%d\n", res);
+//	printf("%d", eg.size());		// 정상 출력 12 나옴 
+//	for(i=0; i<Ed.size(); i++)	printf("%d %d %d\n", Ed[i].v, Ed[i].e, Ed[i].val);		// val 값으로 오름차순 확인 
+	
+
+
 	return 0;
 }
