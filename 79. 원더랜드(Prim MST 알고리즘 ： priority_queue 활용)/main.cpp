@@ -1,49 +1,43 @@
 #include<stdio.h>
-#include<algorithm>
-#include<queue>
 #include<vector>
-using namespace std;
-int ch[30];
+#include<algorithm>
+#include<stack>
+#include<queue>
+using namespace std;	
+
 struct Edge{
-	int e;
-	int val;
+	int v, val;
 	Edge(int a, int b){
-		e=a;
+		v=a;
 		val=b;
 	}
 	bool operator<(const Edge &b)const{
 		return val>b.val;
 	}
 };
-
+int chk[30];
 int main(){
 	freopen("input.txt", "rt", stdin);
-	priority_queue<Edge> Q;
-	vector<pair<int, int> > map[30];
-	int i, n, m, a, b, c, res=0;
-	scanf("%d %d", &n, &m);
-	for(i=1; i<=m; i++){
+	int v, e, a, b, c, i, x;
+	vector <pair <int, int> > map[30];
+	priority_queue <Edge> sQ;
+	scanf("%d %d", &v, &e);
+	
+	
+	
+	for(i=1; i<=e; i++){
 		scanf("%d %d %d", &a, &b, &c);
-		map[a].push_back(make_pair(b, c));	
-		map[b].push_back(make_pair(a, c));
+		map[a].push_back(make_pair(b,c));
+		map[b].push_back(make_pair(a,c));
 	}
-	Q.push(Edge(1, 0));
-	while(!Q.empty()){
-		Edge tmp=Q.top();
-		Q.pop();
-		int v=tmp.e;
-		int cost=tmp.val;
-		if(ch[v]==0){
-			res+=cost;
-			ch[v]=1;
-			for(i=0; i<map[v].size(); i++){
-				if(ch[map[v][i].first]==0){
-					Q.push(Edge(map[v][i].first, map[v][i].second));
-				}
-			}
-		}
-		
+	
+	sQ.push(Edge(1,0));
+	while(!sQ.empty()){
+		Edge tmp = sQ.top();
 	}
-	printf("%d\n", res);
+	
+	
+
+
 	return 0;
 }
