@@ -32,10 +32,15 @@ int main() {
 	}
 	scanf("%d %d", &a, &b);
 	dist[a]=0;
+//	printf("%d", Ed.size();
 	for(i=1; i<n; i++){
-		for(j=1; j<=n; j++){
-			if(dist[j]>2147000000 && )	
-		}
-		
+		for(j=0; j<Ed.size(); j++){
+			int u=Ed[j].s;
+			int v=Ed[j].e;
+			int w=Ed[j].val;
+			if(dist[u]!=2147000000 && dist[u]+w<dist[v]){
+				dist[v]=dist[u]+w;
+			}
+		}	
 	}
 }
