@@ -7,7 +7,7 @@ using namespace std;
 
 int dx[4]={0, 1, 0, -1};
 int dy[4]={-1, 0, 1, 0};
-int map[30][30];
+int map[30][30], dis[30][30];
 struct Loc{
 	int x,y;
 	Loc(int a, int b){
@@ -24,6 +24,23 @@ int main(){
 			scanf("%d", &map[i][j]);
 		}
 	}
+	Q.push(Loc(1,1));
+	
+	while(!Q.empty()){
+		Loc tmp = Q.front();
+		map[tmp.x][tmp.y]=1;
+		Q.pop();
+		int xx, yy;
+		for(i=0; i<4; i++){
+			xx= tmp.x+dx[i];
+			yy= tmp.y+dy[i];
+			if(map[xx][yy]==0 && xx>0 && xx<8 && yy>0 && yy<8){
+				Q.push(Loc(xx,yy));
+				dis[xx][yy]=dis[tmp.x][tmp.y]+1;
+			}
+		}
+	}
+	/*
 	for(i=1; i<=n; i++){		// 여기를 굳이 이렇게 안돌리고 
 		for(j=1; j<=n; j++){	// dx.size() 만큼 돌면서 Q.push(Loc(1,1));
 			if(map[i][j]==0){
@@ -45,27 +62,7 @@ int main(){
 			}
 		}
 	}
-	
-	/*
-	while(!Q.empty()){
-		a=Q.front();
-		for(i=1; i<=n; i++){
-			for(j=1; j<=n; j++){
-				if(map[i][j]==1){
-					map[i][j]=0;
-					for(int k=0; k<8; k++){
-						
-					}
-				}
-			}
-		}
-		for(i=0; i<8; i++){
-			if(map[dx[i]][dy[i]]==1)
-		}
-		
-		Q.pop();
-	}
 	*/
-	printf("%d\n",cnt);
+	printf("%d\n",dis[7][7]);
 	return 0;
 }
