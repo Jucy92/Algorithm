@@ -1,67 +1,57 @@
-#include <stdio.h>
-#include <queue>
-#include <algorithm>
+#include<stdio.h>
+#include<queue>
 using namespace std;
-
-int map[1001][1001], ch[1001][1001];
-int dx[4] ={-1,0,1,0};
-int dy[4] ={0,1,0,-1};
-struct Loc{
-	int x,y;
-	Loc(int a, int b){
-		x=a, y=b;	
+int m, n, tom[1010][1010], res = -2147000000, dis[1010][1010];
+int dx[4] = {0, 1, 0, -1}; 
+int dy[4] = {-1, 0, 1, 0};
+struct Loc {
+	int x, y;
+	Loc(int a, int b) {
+		x = a;
+		y = b;
 	}
 };
-
-int main(){
+queue<Loc> Q;
+int main() {
 	freopen("input.txt", "rt", stdin);
-	int n, m, a, i, j, cnt=0, chk=0, res=-2147000000;
-	queue <Loc> Q;
-	scanf("%d %d", &m, &n); // m가로 n세로 
-	for(i=0; i<n; i++){		// 세로 i로 처리 
-		for(j=0; j<m; j++){
-			scanf("%d", &a);
-			map[i][j]=a;
-			if(a==1){
-				Q.push(Loc(i,j));
-				cnt++;	
-			} 
-		}
-	}
-	if(Q.empty()) printf("-1\n"); // 익은게 없음
-	else{
-		while(!Q.empty()){
-			Loc tmp = Q.front();
-			int xx, yy;
-			Q.pop();
-			for(i=0; i<4; i++){
-				xx= dx[i]+tmp.x; 
-				yy= dy[i]+tmp.y;
-				if(map[xx][yy]==0 && xx>=0 && xx<n && yy>=0 && yy<m){
-					map[xx][yy]=1;
-					Q.push(Loc(xx,yy));
-					ch[xx][yy]=ch[tmp.x][tmp.y]+1;
-					if(res < ch[xx][yy]){
-						res = ch[xx][yy];	
-					} 
-				} 
+	scanf("%d %d", &m, &n);
+	for(int i = 1; i <= n; i++) {
+		for(int j = 1; j <= m; j++) {
+			scanf("%d", &tom[i][j]);
+			if(tom[i][j] == 1) {
+				Q.push(Loc(i, j));
 			}
 		}
-		for(i=0; i<n; i++){		// 처리 끝나고.. 0(안익은 토마토) 따로 체크.. 
-			for(j=0; j<m; j++){
-				if(map[i][j]==0){
-					chk++;
-				} 
+	}
+	while(!Q.empty()) {
+		Loc tmp = Q.front();
+		Q.pop();
+		for(int i = 0; i < 4; i++) {
+			int xx=tmp.x+dx[i];
+			int yy=tmp.y+dy[i];
+			if(tom[xx][yy] == 0) {
+				if(xx>=1 && xx<= n && yy>=1 && yy<= m) {
+					Q.push(Loc(xx, yy));
+					tom[xx][yy] = 1;
+					dis[xx][yy] = dis[tmp.x][tmp.y] + 1;
+				}
 			}
 		}
-		if(cnt==m*n){
-		printf("0\n");
-		}	
-		else if(chk!=0) printf("-1\n");
-		else{
-			printf("%d\n", res);
+	}
+	int f = 1;
+	for(int i = 1; i <= n; i++) {
+		for(int j = 1; j <= m; j++) {
+			if(tom[i][j] == 0) f = 0;
 		}
 	}
-	
+	if(f == 1) {
+		for(int i = 1; i <= n; i++) {
+			for(int j = 1; j <= m; j++) {
+				if(res<dis[i][j]) res = dis[i][j];
+			}
+		}
+		printf("%d\n", res);
+	}
+	else printf("-1");
 	return 0;
 }
