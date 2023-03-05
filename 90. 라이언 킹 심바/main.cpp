@@ -1,48 +1,87 @@
-#include <stdio.h>
-#include <queue>
-#include <algorithm>
+#include<stdio.h>
+#include<algorithm>
+#include<queue>
+#include<vector>
 using namespace std;
-
-int map[30][30], ch[30][30];
-int dx[4] ={0,1,0,-1};
-int dy[4] ={-1,0,1,0};
-int n;
-struct Loc{
-	int x,y;
-	Loc(int a, int b){
-		x=a, y=b;	
+int map[21][21], ch[21][21];
+int dx[4]={-1, 0, 1, 0};
+int dy[4]={0, 1, 0, -1};
+struct State{
+	int x, y, dis;
+	State(int a, int b, int c){
+		x=a;
+		y=b;
+		dis=c;
+	}
+//	bool operator<(const State &bb)const{
+//		if(dis==bb.dis){
+//			if(x==bb.x) return y>bb.y;
+//			else return x>bb.x;
+//		}
+//		else return dis>bb.dis;
+//	}
+	bool operator<(const State &b)const{
+		if(dis!=b.dis) return dis>b.dis;
+		if(x!=b.x) return x>b.x;
+		else return y>b.y;
 	}
 };
 
+struct Lion{
+	int x, y, s, ate;
+	void sizeUp(){
+		ate=0;
+		s++;
+	}
+};
+	
 int main(){
 	freopen("input.txt", "rt", stdin);
-	int i, j, cnt=0, chk=0, res=-2147000000;
-	queue <Loc> Q;
-	scanf("%d", &n); // m가로 n세로 
-	for(i=0; i<n; i++){		// 세로 i로 처리 
-		for(j=0; j<n; j++){
+	int n, i, j, res=0;
+	priority_queue<State> Q;
+	Lion simba;
+	scanf("%d", &n);
+	for(i=1; i<=n; i++){
+		for(j=1; j<=n; j++){
 			scanf("%d", &map[i][j]);
 			if(map[i][j]==9){
-				Q.push(Loc(i,j));
-			} 
+				simba.x=i;
+				simba.y=j;
+				map[i][j]=0;
+			}
 		}
 	}
+	Q.push(State(simba.x, simba.y, 0));
+	simba.s=2;
+	simba.ate=0;
 	while(!Q.empty()){
-		Loc tmp = Q.front();
-		int xx, yy;
+		State tmp=Q.top();
 		Q.pop();
+		int x=tmp.x;
+		int y=tmp.y;
+		int z=tmp.dis;
+		if(map[x][y]!=0 && map[x][y]<simba.s){	
+			simba.x=x;
+			simba.y=y;
+			simba.ate++;
+			if(simba.ate>=simba.s) simba.sizeUp();
+			map[x][y]=0;
+			for(i=1; i<=n; i++){
+				for(j=1; j<=n; j++){
+					ch[i][j]=0;
+				}
+			}
+			while(!Q.empty()) Q.pop();
+			res=tmp.dis;
+		}
 		for(i=0; i<4; i++){
-			xx= dx[i]+tmp.x; 
-			yy= dy[i]+tmp.y;
-			if(map[xx][yy]==0 && xx>=0 && xx<n && yy>=0 && yy<m){
-				map[xx][yy]=1;
-				Q.push(Loc(xx,yy));
-				ch[xx][yy]=ch[tmp.x][tmp.y]+1;
-				if(res < ch[xx][yy]){
-					res = ch[xx][yy];	
-				} 
-			} 
+			int xx=x+dx[i];
+			int yy=y+dy[i];
+			if(xx<1 || xx>n || yy<1 || yy>n || map[xx][yy]>simba.s || ch[xx][yy]>0) continue;
+			Q.push(State(xx, yy, z+1));
+			ch[xx][yy]=1;		
 		}
 	}
+	printf("%d\n", res);
 	return 0;
 }
