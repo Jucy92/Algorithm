@@ -75,13 +75,14 @@ int main(){
 			int xx, yy;
 			xx=dx[i]+x; 
 			yy=dy[i]+y;
-			if(map[xx][yy]>0 && map[xx][yy]<simba.s && xx>1 && xx<=n && yy>1 && yy<=n){
+			if(ch[xx][yy]==0 && map[xx][yy]<simba.s && xx>0 && xx<=n && yy>0 && yy<=n){
 				// 0보다 크고 심바 사이즈보다 작고, 범위 안에 있을 때 푸시	
 				Q.push(State(xx,yy,z+1));
 				ch[xx][yy]=1;
+				// 테스트 케이스 2,3 실패 2번 84->82 
 			}
 //			if(xx<1 || xx>n || yy<1 || yy>n || map[xx][yy]>simba.s || ch[xx][yy]>0) continue;
-//			Q.push(State(xx, yy, z+1));
+//			Q.push(State(xx, yy, z+1)); //강사님 방법 테스트 케이스 ALL PASS 
 //			ch[xx][yy]=1;
 		}
 	}
